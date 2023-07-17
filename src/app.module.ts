@@ -3,20 +3,18 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { StoryModule } from './stories/story.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 @Module({
   imports: [
     StoryModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'pass123',
-      database: 'postgres',
-      autoLoadEntities: true,
-      // disable synchronize in production mode
-      synchronize: true,
+      url: process.env.POSTGRES_URL,
+      synchronize: false,
+      ssl: true,
     }),
   ],
   controllers: [AppController],
